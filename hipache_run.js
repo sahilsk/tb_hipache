@@ -18,7 +18,7 @@ function usage(){
 		options \n\
 		\t   -h      Show this message\n \
 		\t   -c      config file(make sure to mount it first using -v arg)\n \
-		\t   -environment      (qa/staging/test/integration/development/production\n \
+		\t   -env      (qa/staging/test/integration/development/production\n \
 		\t   -v      Verbose\n\
 			";
 	console.log(usage);
@@ -27,10 +27,12 @@ function usage(){
 
 
 //## override environment
-if( argv.environment )
-	ENVIRONMENT = argv.environment
+if( argv.env )
+	ENVIRONMENT = argv.env
+else if(  process.env.SETTINGS_FLAVOR !== undefined )
+	ENVIRONMENT = process.env.SETTINGS_FLAVOR
 
-
+console.log( "Environment: %s", ENVIRONMENT);
 
 //## CONFIG FILE
 var REDIS_ADDR ;
@@ -45,8 +47,8 @@ if( process.env.REDIS_PORT_6379_TCP === undefined){
 }
 
 
-if( process.env.SETTINGS_FLAVOR !== undefined ){
-	CONFIG_FILE = HIPACHE_DIR+"/config/config_"+process.env.SETTINGS_FLAVOR+".json";
+if( ENVIRONMENT.length > 0 ){
+	CONFIG_FILE = HIPACHE_DIR+"/config/config_"+ENVIRONMENT+".json";
 }else
 	CONFIG_FILE = HIPACHE_DIR+"/config/config.json";
 
@@ -65,7 +67,7 @@ if( argv.c !== undefined &&  argv.c.length > 0){
 }
 
 
-console.log("Config file: '%s'", CONFIG_FILE);
+//console.log("Config file: '%s'", CONFIG_FILE);
 
 //## UPDATE REDIS SERVER ADDRESS IN CONFIG FILE
 
@@ -85,7 +87,7 @@ config_data = fs.readFileSync(CONFIG_FILE, 'utf8');
 		console.log("Error reading config file  %s", e);
 		process.exit(1);
 }
-console.log("File data::::::::" + config_data);
+//console.log("File data::::::::" + config_data);
 
 try{
 	config_json = JSON.parse( config_data);	
