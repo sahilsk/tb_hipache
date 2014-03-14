@@ -26,6 +26,12 @@ function usage(){
 }
 
 
+if( argv.h){
+	usage();
+	process.exit(1);
+
+}
+
 //## override environment
 if( argv.env && argv.env.length > 0 )
 	ENVIRONMENT = argv.env
