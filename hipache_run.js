@@ -83,7 +83,6 @@ try{
 config_data = fs.readFileSync(CONFIG_FILE, 'utf8');
 }catch(e){
 		console.log("Error reading config file  %s", e);
-		throw err;
 		process.exit(1);
 }
 console.log("File data::::::::" + config_data);
