@@ -46,7 +46,7 @@ if( process.env.REDIS_PORT_6379_TCP === undefined){
 
 
 if( process.env.SETTINGS_FLAVOR !== undefined ){
-	CONFIG_FILE = HIPACHE_DIR+"/config/config_"+process.env.SETTING_FLAVOR+".json";
+	CONFIG_FILE = HIPACHE_DIR+"/config/config_"+process.env.SETTINGS_FLAVOR+".json";
 }else
 	CONFIG_FILE = HIPACHE_DIR+"/config/config.json";
 
