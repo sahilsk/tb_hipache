@@ -27,7 +27,7 @@ function usage(){
 
 
 //## override environment
-if( argv.env )
+if( argv.env && argv.env.length > 0 )
 	ENVIRONMENT = argv.env
 else if(  process.env.SETTINGS_FLAVOR !== undefined )
 	ENVIRONMENT = process.env.SETTINGS_FLAVOR
@@ -87,7 +87,7 @@ config_data = fs.readFileSync(CONFIG_FILE, 'utf8');
 		console.log("Error reading config file  %s", e);
 		process.exit(1);
 }
-//console.log("File data::::::::" + config_data);
+console.log("Using config:" + config_data);
 
 try{
 	config_json = JSON.parse( config_data);	
@@ -99,7 +99,6 @@ try{
 
 config_json.redisHost = REDIS_IP.toString();
 config_json.redisPort = REDIS_PORT;
-console.log( "Config file:::::::::: %j", config_json);
 //save config_json file
 fs.writeFileSync(CONFIG_FILE, JSON.stringify(config_json), "utf-8",function (err) {
   if (err) 
@@ -109,7 +108,7 @@ fs.writeFileSync(CONFIG_FILE, JSON.stringify(config_json), "utf-8",function (err
 });	
 
 
-//RUN hipache finally
+//RUN hipache
 var spawn = require('child_process').spawn,
 	ls    = spawn('node', [ HIPACHE_DIR+"/bin/hipache", "--config", CONFIG_FILE]);
 
