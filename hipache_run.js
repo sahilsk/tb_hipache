@@ -45,7 +45,7 @@ if( process.env.REDIS_PORT_6379_TCP === undefined){
 }
 
 
-if( process.env.SETTINGS_FLAVOR){
+if( process.env.SETTINGS_FLAVOR != undefined ){
 	CONFIG_FILE = HIPACHE_DIR+"/config/config_"+process.env.SETTING_FLAVOR+".json";
 }else
 	CONFIG_FILE = HIPACHE_DIR+"/config/config.json";
@@ -78,7 +78,7 @@ console.log("Redis address: %s:%s", REDIS_IP, REDIS_PORT);
 //if user config file then update do the same
 
 var config_data = "";
-var config = "";
+var config_json = "";
 try{
 
 config_data = fs.readFileSync(CONFIG_FILE, 'utf8');
@@ -90,18 +90,18 @@ config_data = fs.readFileSync(CONFIG_FILE, 'utf8');
 console.log("File data::::::::" + config_data);
 
 try{
-	config = JSON.parse( config_data);	
+	config_json = JSON.parse( config_data);	
 }catch(e){
 	console.log("Unable to parse config data: %s", e);
 	process.exit(1);
 }  
 
 
-config.redisHost = REDIS_IP.toString();
-config.redisPort = REDIS_PORT;
-console.log( "Config file:::::::::: %j", config);
-//save config file
-fs.writeFileSync(CONFIG_FILE, JSON.stringify(config), "utf-8",function (err) {
+config_json.redisHost = REDIS_IP.toString();
+config_json.redisPort = REDIS_PORT;
+console.log( "Config file:::::::::: %j", config_json);
+//save config_json file
+fs.writeFileSync(CONFIG_FILE, JSON.stringify(config_json), "utf-8",function (err) {
   if (err) 
 	throw err;
   console.log('Config file saved');
