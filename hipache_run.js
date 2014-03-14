@@ -80,10 +80,9 @@ console.log("Redis address: %s:%s", REDIS_IP, REDIS_PORT);
 var config_data = "";
 var config_json = "";
 try{
-
 config_data = fs.readFileSync(CONFIG_FILE, 'utf8');
 }catch(e){
-		console.log("Error reading config file  %s", err);
+		console.log("Error reading config file  %s", e);
 		throw err;
 		process.exit(1);
 }
